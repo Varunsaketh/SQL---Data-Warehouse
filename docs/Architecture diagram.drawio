@@ -1,0 +1,79 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36" version="29.6.6">
+  <diagram name="Page-1" id="v2JsMIG9cjUbzE8zzVHT">
+    <mxGraphModel dx="1042" dy="575" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;object type : &lt;/b&gt;CSV files&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Instances :&lt;/b&gt; files in the folder&lt;/div&gt;" vertex="1">
+          <mxGeometry height="410" width="120" x="30" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="410" width="480" x="180" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="410" width="120" x="690" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="Sliver Layer" vertex="1">
+          <mxGeometry height="30" width="120" x="350" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Object Type&lt;/b&gt; : Tables&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Load Type&lt;/b&gt; :&lt;/div&gt;&lt;div&gt;1.Batch processing&lt;/div&gt;&lt;div&gt;2.full load&lt;/div&gt;&lt;div&gt;3.Insert&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Transformations&lt;/b&gt;:&lt;/div&gt;&lt;div&gt;1.Data cleaning&lt;/div&gt;&lt;div&gt;2.data Normalization&lt;/div&gt;&lt;div&gt;3.Data standardization&lt;/div&gt;&lt;div&gt;4.Data Enrichment&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Data model&lt;/b&gt;:&lt;/div&gt;&lt;div&gt;None&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="320" width="120" x="350" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="Bronze Layer" vertex="1">
+          <mxGeometry height="30" width="120" x="210" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;Object Type &lt;/b&gt;: Tables&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;div&gt;&lt;b&gt;Load Type&lt;/b&gt;:&amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;1.batch processing 2&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.Full Load&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;div&gt;3.Insert&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;b&gt;Transformations:&lt;/b&gt; None&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Data Model&lt;/b&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;:&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;None&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="320" width="120" x="210" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;b&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;Object Type&lt;/b&gt; : Views&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Load Type&lt;/b&gt; : None&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;b&gt;Transformations&lt;/b&gt;:&amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/div&gt;&lt;div&gt;1.Data Integration&lt;/div&gt;&lt;div&gt;2.Agregations&lt;/div&gt;&lt;div&gt;3.business logic&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;br&gt;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;&lt;b style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp; &amp;nbsp;Data model :&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&lt;/b&gt;&lt;/div&gt;&lt;div&gt;1.star schema&lt;/div&gt;&lt;div&gt;2.Flat table&lt;/div&gt;&lt;div&gt;3.Agreggated table&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="320" width="120" x="500" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;" value="Gold Layer" vertex="1">
+          <mxGeometry height="30" width="120" x="500" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-10" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=default;" value="Source" vertex="1">
+          <mxGeometry height="30" width="80" x="50" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Data Warehouse" vertex="1">
+          <mxGeometry height="60" width="230" x="280" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Consume" vertex="1">
+          <mxGeometry height="30" width="75" x="715" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-14" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/Folder_Blank.svg;" value="" vertex="1">
+          <mxGeometry height="56.00000000000001" width="69" x="50" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-15" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/Files.svg;" value="" vertex="1">
+          <mxGeometry height="40" width="36.57" x="86" y="280" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-18" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="380" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-19" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="240" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="WmnfNEDjiXknpp0HW4FW-20" parent="1" style="strokeWidth=2;html=1;shape=mxgraph.flowchart.database;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="60" width="60" x="530" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="8-iFUMS8XfTe61YI6zpr-1" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" target="WmnfNEDjiXknpp0HW4FW-2" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="150" y="400" as="sourcePoint" />
+            <mxPoint x="200" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8-iFUMS8XfTe61YI6zpr-2" edge="1" parent="1" style="shape=flexArrow;endArrow=classic;html=1;rounded=0;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="660" y="392" as="sourcePoint" />
+            <mxPoint x="690" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="8-iFUMS8XfTe61YI6zpr-3" parent="1" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/power_platform/PowerBI.svg;" value="" vertex="1">
+          <mxGeometry height="68" width="51" x="725" y="244" as="geometry" />
+        </mxCell>
+        <mxCell id="8-iFUMS8XfTe61YI6zpr-4" parent="1" style="shape=image;html=1;verticalAlign=top;verticalLabelPosition=bottom;labelBackgroundColor=#ffffff;imageAspect=0;aspect=fixed;image=https://icons.diagrams.net/icon-cache1/Document_icons-2697/647714-excel-1207.svg" value="" vertex="1">
+          <mxGeometry height="50" width="50" x="725" y="430" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
