@@ -1,0 +1,190 @@
+/*
+Creating the six tables mentioned in the data set 
+1.Redefining structure of tables
+2.inserting values into tables using BULK INSERT
+3.creating a detailed structure for the procedure
+
+*/
+
+IF OBJECT_ID('Bronze.crm_cust_info' , 'U') IS NOT NULL
+DROP TABLE Bronze.crm_cust_info
+
+CREATE TABLE Bronze.crm_cust_info(
+	cst_id INT,
+	cst_key NVARCHAR(50),
+	cst_firstname NVARCHAR(50),
+	cst_lastname NVARCHAR(50),
+	cst_marital_status NVARCHAR(50),
+	cst_gndr NVARCHAR(50),
+	cst_create_date DATE,
+);
+
+IF OBJECT_ID('Bronze.crm_sales_details','U') IS NOT NULL
+DROP TABLE Bronze.crm_sales_details;
+
+CREATE TABLE Bronze.crm_sales_details(
+	sls_ord_num NVARCHAR(50),
+	sls_prd_key NVARCHAR(50),
+	sls_cust_id INT,
+	sls_order_dt INT,
+	sls_ship_dt INT,
+	sls_due_dt INT,
+	sls_sales INT,
+	sls_quantity INT,
+	sls_price INT
+);
+IF OBJECT_ID('Bronze.crm_prd_info','U') IS NOT NULL
+DROP TABLE Bronze.crm_prd_info;
+
+CREATE TABLE Bronze.crm_prd_info(
+	prd_id INT,
+	prd_key NVARCHAR(50),
+	prd_nm NVARCHAR(50),
+	prd_cost INT,
+	prd_line VARCHAR(20),
+	prd_start_dt DATETIME,
+	prd_end_dt DATETIME,
+);
+IF OBJECT_ID('Bronze.erp_cust_az12','U') IS NOT NULL
+DROP TABLE Bronze.erp_cust_az12;
+
+CREATE TABLE Bronze.erp_cust_az12(
+	CID NVARCHAR(50),
+	BDATE DATE,
+	GEN VARCHAR(20)
+);
+IF OBJECT_ID('Bronze.erp_loc_a101','U') IS NOT NULL
+DROP TABLE Bronze.erp_loc_a101;
+
+CREATE TABLE Bronze.erp_loc_a101(
+	CID NVARCHAR(50),
+	CNTRY VARCHAR(20)
+);
+IF OBJECT_ID('Bronze.erp_px_cat_g1v2','U') IS NOT NULL
+DROP TABLE Bronze.erp_px_cat_g1v2;
+
+CREATE TABLE Bronze.erp_px_cat_g1v2(
+	ID NVARCHAR(50),
+	CAT VARCHAR(20),
+	SUBCAT VARCHAR(30),
+	MAINTENANCE VARCHAR(10)
+);
+
+-- using stored procedure helps for code reuability and for higher securuity 
+
+CREATE OR ALTER PROCEDURE Bronze.load_bronze AS
+BEGIN
+	BEGIN TRY
+		DECLARE @start_time DATETIME , @end_time DATETIME;
+		SET @start_time = GETDATE();
+
+		PRINT '================================================';
+		PRINT 'LOADING BRONZE LAYER';
+		PRINT '================================================';
+
+		-- Bulk insert used to insert the bulck amounts of data 
+		-- it requires the from location where the file is saved 
+		PRINT '------------------------------------------------';
+		PRINT 'LOADING CRM TABLES';
+		PRINT '------------------------------------------------';
+
+		BULK INSERT Bronze.crm_cust_info
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_crm\cust_info.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+		SELECT 
+		COUNT(*)
+		FROM Bronze.crm_cust_info;
+
+		BULK INSERT Bronze.crm_sales_details
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_crm\sales_details.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+		SELECT 
+		COUNT(*)
+		FROM Bronze.crm_sales_details;
+
+		BULK INSERT Bronze.crm_prd_info
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_crm\prd_info.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+
+		SELECT 
+		COUNT(*)
+		FROM Bronze.crm_prd_info;
+
+		BULK INSERT Bronze.erp_cust_az12
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_erp\CUST_AZ12.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+		SELECT 
+		COUNT(*)
+		FROM Bronze.erp_cust_az12;
+
+		PRINT '------------------------------------------------';
+		PRINT 'LOADING ERP TABLES';
+		PRINT '------------------------------------------------';
+
+		BULK INSERT Bronze.erp_LOC_A101
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_erp\LOC_A101.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+		SELECT 
+		COUNT(*)
+		FROM Bronze.erp_loc_a101;
+
+		BULK INSERT Bronze.erp_px_cat_g1v2
+		FROM 'D:\sql projects\sql-data-warehouse-project\datasets\source_erp\PX_CAT_G1V2.csv'
+		WITH(
+		-- used firstrow as 2 row from importing file because the first row already consists of row names 
+		-- fielddeterminator is defferent for different files it is used to to seperated the columns 
+		  FIRSTROW = 2,
+		  FIELDTERMINATOR = ',',
+		  TABLOCK
+		);
+		SELECT 
+		COUNT(*)
+		FROM Bronze.erp_px_cat_g1v2;
+		SET @end_time = GETDATE();
+		PRINT '============================================='
+		PRINT 'TABLES LOADED SUCESSFULLY'
+		PRINT '============================================='
+		PRINT 'TIME TAKEN'+ CAST(DATEDIFF(second,@start_time,@end_time) AS VARCHAR(50)) + 'seconds';
+	END TRY
+
+	BEGIN CATCH
+		PRINT '==========================================';
+		PRINT 'ERROR OCCURED WHILE LOADING TABLES';
+		PRINT '==========================================';
+		PRINT 'Error Message ' + ERROR_MESSAGE() ; 
+		PRINT 'Error Number: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+		PRINT 'Error Line: ' + CAST(ERROR_LINE() AS VARCHAR);
+	END CATCH
+
+
+END;
