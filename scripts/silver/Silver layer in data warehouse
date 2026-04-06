@@ -1,0 +1,505 @@
+  
+IF OBJECT_ID('Silver.crm_cust_info' , 'U') IS NOT NULL
+DROP TABLE Silver.crm_cust_info
+
+CREATE TABLE Silver.crm_cust_info(
+	cst_id INT,
+	cst_key NVARCHAR(50),
+	cst_firstname NVARCHAR(50),
+	cst_lastname NVARCHAR(50),
+	cst_marital_status NVARCHAR(50),
+	cst_gndr NVARCHAR(50),
+	cst_create_date DATE,
+);
+
+IF OBJECT_ID('Silver.crm_sales_details','U') IS NOT NULL
+DROP TABLE Silver.crm_sales_details;
+
+CREATE TABLE Silver.crm_sales_details(
+	sls_ord_num NVARCHAR(50),
+	sls_prd_key NVARCHAR(50),
+	sls_cust_id INT,
+	sls_order_dt DATE,
+	sls_ship_dt DATE,
+	sls_due_dt DATE,
+	sls_sales INT,
+	sls_quantity INT,
+	sls_price INT
+);
+IF OBJECT_ID('Silver.crm_prd_info','U') IS NOT NULL
+DROP TABLE Silver.crm_prd_info;
+
+CREATE TABLE Silver.crm_prd_info(
+	prd_id INT,
+	cat_id NVARCHAR(50),
+	prd_key NVARCHAR(50),
+	prd_nm NVARCHAR(50),
+	prd_cost INT,
+	prd_line VARCHAR(50),
+	prd_start_dt DATE,
+	prd_end_dt DATE,
+);
+IF OBJECT_ID('Silver.erp_cust_az12','U') IS NOT NULL
+DROP TABLE Silver.erp_cust_az12;
+
+CREATE TABLE Silver.erp_cust_az12(
+	CID NVARCHAR(50),
+	BDATE DATE,
+	GEN VARCHAR(20)
+);
+IF OBJECT_ID('Silver.erp_loc_a101','U') IS NOT NULL
+DROP TABLE Silver.erp_loc_a101;
+
+CREATE TABLE Silver.erp_loc_a101(
+	CID NVARCHAR(50),
+	CNTRY VARCHAR(20)
+);
+IF OBJECT_ID('Silver.erp_px_cat_g1v2','U') IS NOT NULL
+DROP TABLE Silver.erp_px_cat_g1v2;
+
+CREATE TABLE Silver.erp_px_cat_g1v2(
+	ID NVARCHAR(50),
+	CAT VARCHAR(20),
+	SUBCAT VARCHAR(30),
+	MAINTENANCE VARCHAR(10)
+);
+
+
+
+
+/*
+DATA CLEANING :
+1. Removing Duplicates
+
+
+*/
+
+--- REMOVING DUPLICATES:
+
+SELECT 
+*
+FROM Bronze.crm_cust_info;
+
+-- Finding out what are the duplicate values available 
+SELECT
+cst_id,
+count(*) as NO_OF_ROWS
+FROM Bronze.crm_cust_info
+GROUP BY cst_id
+HAVING count(*)!= 1;
+
+-- checking the duplicate values for getting accurate ones out 
+
+SELECT
+*
+FROM Bronze.crm_cust_info
+WHERE cst_id = 29449;
+
+-- with the below line we can only iew the updated and uniqe rows.
+-- furthurly we can drop them if not needed
+
+SELECT
+*
+FROM
+(
+	SELECT 
+	*,
+	ROW_NUMBER() OVER(PARTITION BY cst_id ORDER BY cst_create_date ASC) AS RANK
+	FROM Bronze.crm_cust_info
+)t
+WHERE  RANK = 1;
+
+-- Checking for unwanted spaces
+SELECT 
+cst_firstname
+FROM Bronze.crm_cust_info
+WHERE cst_firstname != TRIM(cst_firstname)
+
+SELECT DISTINCT
+cst_gndr
+FROM Bronze.crm_cust_info;
+
+-- there are some present which may cause data quality issues so what we do is remove spaces for both first name and last name in out table 
+INSERT INTO Silver.crm_cust_info(cst_id,cst_key,cst_firstname,cst_lastname,cst_marital_status,cst_gndr,cst_create_date)
+SELECT 
+cst_id,
+cst_key,
+TRIM(cst_firstname) AS cst_firstname,
+TRIM(cst_lastname) AS cst_lastname,
+CASE 
+ WHEN UPPER(TRIM(cst_marital_status)) = 'S' THEN 'Single'
+ WHEN UPPER(TRIM(cst_marital_status)) = 'M' THEN 'Married'
+ ELSE 'n/a'
+END AS cst_marital_status,
+CASE 
+ WHEN UPPER(TRIM(cst_gndr)) = 'M' THEN 'Male'
+ WHEN UPPER(TRIM(cst_gndr)) = 'F' THEN 'Female'
+ ELSE 'n/a'
+END AS cst_gndr,
+cst_create_date
+-- here we are using our previous subquery so that we remove all the duplicate values .
+FROM
+(
+	SELECT 
+	*,
+	ROW_NUMBER() OVER(PARTITION BY cst_id ORDER BY cst_create_date ASC) AS RANK
+	FROM Bronze.crm_cust_info
+)t
+WHERE  RANK = 1;
+
+-- CHECKING ALL UPDATED SILVER SCHEMA
+-- checking for duplicates in silver Schema
+SELECT
+cst_id,
+count(*) as NO_OF_ROWS
+FROM Silver.crm_cust_info
+GROUP BY cst_id
+HAVING count(*)!= 1;
+
+-- Checking for unwanted spaces in Silver Schema
+SELECT 
+cst_firstname
+FROM Silver.crm_cust_info
+WHERE cst_firstname != TRIM(cst_firstname)
+
+
+-- checking for Standerdization and consistancy 
+
+SELECT DISTINCT 
+cst_marital_status
+FROM Silver.crm_cust_info;
+
+SELECT DISTINCT 
+cst_gndr
+FROM Silver.crm_cust_info;
+
+-- Checking for table crm_prd_info
+
+SELECT 
+*
+FROM Bronze.crm_prd_info;
+
+-- checking for Data redundency 
+SELECT 
+prd_id,
+COUNT(*) AS NO_OF_ROWS
+FROM Bronze.crm_prd_info
+GROUP BY prd_id
+HAVING COUNT(*) > 1;
+
+-- there is a NO data Redundency 
+
+-- CHECKING FOR SPACES 
+SELECT 
+*
+FROM Bronze.crm_prd_info
+
+WHERE prd_nm != prd_nm;
+
+SELECT 
+*
+FROM Bronze.crm_prd_info
+WHERE prd_key != prd_key ;
+
+-- no errors present .
+
+SELECT 
+*
+FROM Bronze.crm_prd_info
+
+SELECT 
+*
+FROM Bronze.erp_px_cat_g1v2
+
+SELECT 
+*
+FROM Bronze.erp_loc_a101
+
+SELECT 
+*
+FROM Bronze.erp_cust_az12
+
+/* FROM TABLE prd_info and Bronze.erp_px_cat_g1v2 we can check 
+the first 4 letters in prd_key is same as ID in cat_g1v2 table 
+so what we will do split prd key into 2 parts 
+-> one is cat_id and otger is prd_key itself 
+as there is no math from ny other tables we leave them as it is 
+
+
+-> we changed prd_cost null values to zeros so that aggregate functions will be easy 
+
+-> we changed prd_line from abrevation to full form genrally if full form not present we need to get information from the experts
+
+-> and for some rows we have the end date smaller than start date which is a big data error genrally for this type of problem we have 2 methods to solve
+   1. we will swap end_date values to first and vise versa
+   2. as we have multiple prices which are upgraded through out the years we will take the start date of preseding one and use as end date for the current one
+
+   second step could give more accurate info majorly but if there is any data entry error then first step will give more accurate data 
+-> we also made changes of data type of start date and end date from date time to date 
+-> we created new column as cat_id 
+-> we should also change it in the Silver schema creation table .
+*/
+INSERT INTO Silver.crm_prd_info(prd_id,cat_id,prd_key,prd_nm,prd_cost,prd_line,prd_start_dt,prd_end_dt)
+SELECT 
+prd_id,
+REPLACE(SUBSTRING(prd_key,1,5) ,'-','_')AS cat_id,
+
+SUBSTRING(prd_key,7,LEN(prd_key)) AS prd_key,
+prd_nm,
+ISNULL(prd_cost,0) AS prd_cost,
+
+CASE
+	WHEN UPPER(TRIM(prd_line)) = 'R' THEN 'Road'
+	WHEN UPPER(TRIM(prd_line)) = 'M' THEN 'Mountain'
+	WHEN UPPER(TRIM(prd_line)) = 'S' THEN 'Other sales'
+	WHEN UPPER(TRIM(prd_line)) = 'T' THEN 'Touring'
+	ELSE 'n/a'
+END AS prd_line,
+
+CAST(prd_start_dt AS DATE) AS prd_start_dt,
+
+CASE 
+ WHEN prd_start_dt > prd_end_dt THEN CAST(LEAD(prd_start_dt) OVER(PARTITION BY prd_key ORDER BY prd_start_dt) - 1 AS DATE)
+END  AS prd_end_dt
+
+FROM Bronze.crm_prd_info;
+
+SELECT DISTINCT
+prd_line
+FROM Bronze.crm_prd_info
+
+SELECT 
+*,
+CASE 
+ WHEN prd_start_dt > prd_end_dt THEN LEAD(prd_start_dt) OVER(PARTITION BY prd_key ORDER BY prd_start_dt) 
+END  AS prd_end_dt_test
+FROM Bronze.crm_prd_info
+ORDER BY prd_start_dt;
+
+SELECT
+*
+FROM Silver.crm_cust_info
+
+SELECT
+*
+FROM Silver.crm_prd_info;
+
+SELECT 
+*
+FROM Bronze.crm_sales_details
+
+SELECT 
+*
+FROM Bronze.erp_px_cat_g1v2
+
+SELECT 
+*
+FROM Bronze.erp_loc_a101
+
+SELECT 
+*
+FROM Bronze.erp_cust_az12
+
+/*
+there are some perfect keys such as sls_ord_num uniqe only in this table 
+-> prd_key we cross checked with prd table every thing is uniqe
+-> same with cust key
+-> but for order date it is in the format of int so we converted it to date we directry cant convert it so INt -> VARCHAR -> DATE
+-> same with due date and ship dtae 
+-> we also checked if order date > ship date or due date which is a consistancy error None present
+-> then we checked if sales are NUll or -ve values or sales != quntity * price which is genral business ideology 
+-> there are multiple so we applied our formulae and changed those .
+*/
+INSERT INTO Silver.crm_sales_details(sls_ord_num,sls_prd_key , sls_cust_id , sls_order_dt,sls_ship_dt,sls_due_dt,sls_sales,sls_quantity,sls_price)
+SELECT
+sls_ord_num,
+sls_prd_key,
+sls_cust_id,
+CASE 
+	WHEN len(sls_order_dt) = 0 or len(sls_order_dt) != 8 THEN NULL
+	ELSE CAST(CAST(sls_order_dt AS VARCHAR) AS DATE)
+END AS sls_order_dt,
+
+CASE 
+	WHEN len(sls_ship_dt) = 0 or len(sls_ship_dt) != 8 THEN NULL
+	ELSE CAST(CAST(sls_ship_dt AS VARCHAR) AS DATE)
+END AS sls_ship_dt,
+
+CASE 
+	WHEN len(sls_due_dt) = 0 or len(sls_due_dt) != 8 THEN NULL
+	ELSE CAST(CAST(sls_due_dt AS VARCHAR) AS DATE)
+END AS sls_due_dt,
+
+CASE 
+	WHEN sls_sales < 0 or sls_sales is NULL or sls_sales != abs(sls_quantity) * abs(sls_price) 
+	THEN  abs(sls_quantity) * abs(sls_price) 
+	ELSE sls_sales
+END AS sls_sales,
+
+sls_quantity,
+
+CASE 
+	WHEN sls_price IS NULL or sls_price < 0 or sls_price != sls_sales/sls_quantity THEN sls_sales/sls_quantity 
+	ELSE sls_price
+END AS sls_price
+
+FROM Bronze.crm_sales_details;
+
+-- checking if we have any extra keys than in the product table 
+-- None present 
+
+SELECT 
+*
+FROM Bronze.crm_sales_details
+WHERE sls_prd_key NOT IN (SELECT prd_key FROM Silver.crm_prd_info)
+
+-- checking if we have any extra keys than in the customer table 
+-- None present 
+SELECT 
+*
+FROM Bronze.crm_sales_details
+WHERE sls_cust_id NOT IN (SELECT cst_id FROM Silver.crm_cust_info)
+
+-- checking if oredrd date is correct or not 
+-- no errors present 
+SELECT 
+*
+FROM Bronze.crm_sales_details
+where sls_order_dt > sls_ship_dt or sls_order_dt > sls_due_dt;
+
+-- data quality issue from sales , qunatity and prices 
+-- null values are there and -ve values present also sales != qunatity * price and vise versa 
+
+
+
+SELECT 
+sls_sales,
+sls_quantity,
+sls_price
+FROM Bronze.crm_sales_details
+WHERE sls_sales < sls_quantity * sls_price or sls_sales is null or sls_quantity is null or sls_price is null or sls_price != sls_sales/sls_quantity;
+
+SELECT * 
+FROM Silver.crm_sales_details
+
+SELECT *
+FROM Bronze.erp_cust_az12;
+
+
+/*
+-> in CID we have unnecessary add on of NASA for some and for other we dont this is is same as cust_id so we removed NASA
+-> WE CHECKED BDAY which is not natural we changed them to NULL
+-> there is a redundency of genders so we changed them to only 3 
+  1. Male
+  2.Female
+  3.n/a
+
+*/
+
+INSERT INTO Silver.erp_cust_az12(CID,BDATE,GEN)
+SELECT
+
+CASE 
+  WHEN CID LIKE 'NASA%' THEN SUBSTRING(CID,4,LEN(CID))
+  ELSE CID
+END AS CID,
+
+
+CASE 
+	WHEN BDATE > GETDATE() THEN NULL
+	ELSE BDATE
+END AS BDATE,
+
+CASE 
+	WHEN GEN = 'M' or GEN = 'm' THEN 'Male'
+	WHEN GEN = 'F' or GEN = 'f' THEN 'Female '
+	WHEN GEN = 'Male' or GEN = 'Female' THEN GEN
+	ELSE 'n/a'
+END AS GEN
+
+FROM Bronze.erp_cust_az12;
+
+-- checking for unnatural bdays
+SELECT * 
+FROM Bronze.erp_cust_az12
+WHERE BDATE > GETDATE();
+
+-- selecting and checking data redundency 
+SELECT
+GEN
+FROM BRonze.erp_cust_az12
+GROUP BY GEN;
+
+-- checking the gender values after the table updation 
+SELECT DISTINCT
+GEN
+FROM Silver.erp_cust_az12
+
+SELECT 
+*
+FROM Bronze.erp_loc_a101
+
+
+/*
+-> we checked the CID this is same as cust_key in customer table so we make sure that both of them are same and so outcast keys present
+-> there are multiple and redundency of countries present so we reduced them to a single entity for a country 
+*/
+INSERT INTO Silver.erp_loc_a101(CID,CNTRY)
+
+SELECT
+
+REPLACE(CID,'-','') AS CID,
+
+CASE
+ WHEN UPPER(TRIM(CNTRY)) = 'US' or UPPER(TRIM(CNTRY)) = 'UNITED STATES' or UPPER(TRIM(CNTRY)) = 'USA' THEN 'United States'
+ WHEN UPPER(TRIM(CNTRY)) = 'DE' or UPPER(TRIM(CNTRY)) = 'GERMANY' THEN 'Germany'
+ WHEN UPPER(TRIM(CNTRY)) = 'UK' or UPPER(TRIM(CNTRY)) = 'UNITED KINGDOM'THEN 'United Kingdom'
+ WHEN UPPER(TRIM(CNTRY)) = 'CANADA'THEN 'Canada'
+ WHEN UPPER(TRIM(CNTRY)) = 'AUSTRALIA' THEN 'Australia'
+ WHEN UPPER(TRIM(CNTRY)) = 'FRANCE' THEN 'France'
+ ELSE 'n/a' 
+END AS CNTRY
+
+FROM Bronze.erp_loc_a101
+
+SELECT 
+*
+FROM Bronze.crm_cust_info
+
+-- there is an extra - that seperates bothe keys so we removed them .
+SELECT 
+*
+FROM Bronze.erp_loc_a101
+WHERE CID NOT IN (SELECT cst_key FROM Bronze.crm_cust_info);
+
+-- checking the different types of entities present
+
+SELECT DISTINCT 
+CNTRY
+FROM Bronze.erp_loc_a101
+
+SELECT 
+*
+FROM Bronze.erp_px_cat_g1v2;
+
+INSERT INTO Silver.erp_px_cat_g1v2(ID,CAT,SUBCAT,MAINTENANCE)
+SELECT
+ID,
+CAT,
+SUBCAT,
+MAINTENANCE
+FROM Bronze.erp_px_cat_g1v2;
+
+SELECT 
+*
+FROM Bronze.erp_px_cat_g1v2
+WHERE CAT != TRIM(CAT) or SUBCAT != TRIM(SUBCAT);
+
+SELECT 
+MAINTENANCE
+FROM Bronze.erp_px_cat_g1v2
+GROUP BY MAINTENANCE;
+
+
+
+
