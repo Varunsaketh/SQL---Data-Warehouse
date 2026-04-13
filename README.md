@@ -9,3 +9,10 @@ basically we built a 3 layerd schema project of data warehouse which includes Br
 **TOOLS USED**
 1. MS SQL SERVER
 2. Draw.io 
+
+**3 LAYERED ARCHITECTURE**
+
+**Bronze layer:**
+All the tables from the database is loaded into new schema called a broze we use DROP AND INSERT menthods 
+Nothing much just dato importing creating a structured architecture and a layerd format 
+
