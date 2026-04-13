@@ -16,3 +16,10 @@ basically we built a 3 layerd schema project of data warehouse which includes Br
 All the tables from the database is loaded into new schema called a broze we use DROP AND INSERT menthods 
 Nothing much just dato importing creating a structured architecture and a layerd format 
 
+**silver layer:**
+we created a new schema called a silver and perfored operation like data enrichment, logical data issues , data standerdization, data integration 
+comparing all different tables and checking of invalid data making it usefull according to suggestions
+
+**gold Layer:**
+in this final layer we made this schema a data visulizaion and analytics ready to gather insights and build dashboards we created 2 categories of dimension and facts views and gathered all  diferent tables into 3 main tables
+
